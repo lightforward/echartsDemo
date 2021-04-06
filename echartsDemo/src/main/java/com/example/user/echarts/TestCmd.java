@@ -2,11 +2,10 @@ package com.example.user.echarts;
 
 import com.alibaba.fastjson.JSON;
 import freemarker.template.TemplateException;
-import org.apache.http.client.ClientProtocolException;
+import sun.misc.BASE64Decoder;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * 使用cmd命令调用
@@ -28,12 +27,11 @@ public class TestCmd {
         // 生成option字符串
         String option = FreemarkerUtil.generateString("option.ftl", "", datas);
         StringBuilder buf = new StringBuilder();
-        for (String str : option.split("\n"))
-        {
+        for (String str : option.split("\n")) {
             buf.append(str.trim());
         }
 
-        File phantomJs = new File("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\phantomjs-2.1.1-windows\\phantomjs-2.1.1-windows\\bin\\phantomjs " );
+        File phantomJs = new File("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\phantomjs-2.1.1-windows\\phantomjs-2.1.1-windows\\bin\\phantomjs ");
         File convertJs = new File("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\echartsconvert\\echarts-convert.js ");
 
         String path = "F:/echartsPng/test.png";
@@ -44,7 +42,14 @@ public class TestCmd {
             outfile.createNewFile();
         }
 
-        String cmd = "phantomJs " + phantomJs  + " convertJs " + convertJs  + " -infile " + buf + " -outfile " + path;//生成命令行
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] b = decoder.decodeBuffer(String.valueOf(buf));
+        for (int i = 0; i < b.length; ++i) {
+            if (b[i] < 0) {// 调整异常数据
+                b[i] += 256;
+            }
+        }
+        String cmd = "phantomJs " + phantomJs + " convertJs " + convertJs + " -infile " + buf + " -outfile " + path;//生成命令行
         Process process = Runtime.getRuntime().exec(cmd);
         BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line = "";
@@ -53,6 +58,9 @@ public class TestCmd {
         }
         input.close();
         process.destroy();
+
+
     }
+
 
 }
