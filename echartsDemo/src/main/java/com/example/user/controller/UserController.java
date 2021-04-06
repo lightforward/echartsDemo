@@ -1,5 +1,6 @@
 package com.example.user.controller;
 
+import com.example.user.aop.MyLog;
 import com.example.user.model.User;
 import com.example.user.service.UserService;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @MyLog(value = "用户注册")  //这里添加了AOP的自定义注解
     @RequestMapping(value = "registered",method=RequestMethod.POST)
     public Object registered(HttpServletRequest request) {
         logger.info("logback 访问:注册接口");
@@ -75,51 +77,33 @@ public class UserController {
      * @param request
      * @return
      */
+    @MyLog(value = "用户登录")  //这里添加了AOP的自定义注解
     @RequestMapping(value = "login",method=RequestMethod.POST)
     public Object login(HttpServletRequest request) {
         logger.error("logback 访问:登录接口");
         String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
+        String passWord = request.getParameter("passWord");
         Map<Object, Object> param = new HashMap<Object, Object>();
         param.put("userName", userName);
-        param.put("passWord", password);
-        List<Map> list = userService.loginUser(param);
+        param.put("passWord", passWord);
+        User user = userService.loginUser(param);
         Map<Object, Object> result = new HashMap<Object, Object>();
-        if(list.size() == 1) {
+        if(user != null) {
             result.put("resultCode", 200);
             result.put("msg", "登录成功");
-            // 登录用户保存到session中
-            User loginUser = new User();
-            loginUser.setUserName(userName);
-            setSessionLoginUser(request,loginUser);
-        }else if(list.size() == 0 || list == null ) {
-            result.put("resultCode", 500);
-            result.put("msg", "用户名或者密码错误");
+            setSession(request, user);
         }else {
             result.put("resultCode", 500);
-            result.put("msg", "未知错误,登录失败,请联系管理员");
+            result.put("msg", "用户名或者密码错误");
         }
         return result;
     }
 
-    /**
-     * demo
-     */
-    @GetMapping(value = "demo")
-    public User demo(){
-        User user = new User();
-        user.setUserName("You Name");
-        user.setId(666L);
-        return user;
+    public void setSession(HttpServletRequest request, User loginUser){
+        //使用request对象的getSession()获取session，如果session不存在则创建一个
+        HttpSession session = request.getSession();
+        //将数据存储到session中
+        session.setAttribute("loginUser", loginUser);
+        session.setMaxInactiveInterval(60 * 20); //单位秒
     }
-
-    /**
-     * 用户登录成功,保存到session中
-     */
-    public void setSessionLoginUser(HttpServletRequest request,User loginUser) {
-        HttpSession session =  request.getSession();
-        session.setAttribute("loginUser",loginUser);
-        session.setMaxInactiveInterval(20*60);
-    }
-
 }

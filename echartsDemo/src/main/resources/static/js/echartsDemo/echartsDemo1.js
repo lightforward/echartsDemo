@@ -14,6 +14,9 @@ $(function () {
     // 指定图表的配置项和数据
     var optionBar = {
         title: {
+            mark : '辅助线开关',
+            markUndo : '删除辅助线',
+            markClear : '清空辅助线',
             text: 'ECharts柱状图'
         },
         tooltip: {},
@@ -50,6 +53,9 @@ $(function () {
         toolbox: {
             show : true,
             feature : {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: true},
