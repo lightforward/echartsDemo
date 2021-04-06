@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 
-public class test {
+/**
+ * 使用Http调用
+ *
+ */
+public class TestHttp {
 
 //    private static final String path = FreemarkerUtil.class.getClassLoader().getResource("/templates").getPath();
 
@@ -18,8 +22,8 @@ public class test {
 
         // 未配置环境变量情况下, 启动phantomjs.exe
         Runtime run = Runtime.getRuntime();
-        Process process = run.exec("E:\\echartsDemo\\echartsDemo\\src\\main\\resources\\phantomjs-2.1.1-windows\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe " +
-                "E:\\echartsDemo\\echartsDemo\\src\\main\\resources\\echartsconvert\\echarts-convert.js -s -p 6666");
+        Process process = run.exec("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\phantomjs-2.1.1-windows\\phantomjs-2.1.1-windows\\bin\\phantomjs " +
+                "E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\echartsconvert\\echarts-convert.js -s -p 6666");
 
         // 变量
         String title = "水果";
