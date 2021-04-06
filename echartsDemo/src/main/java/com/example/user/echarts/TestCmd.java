@@ -42,13 +42,16 @@ public class TestCmd {
             outfile.createNewFile();
         }
 
+        // 转Base64
         BASE64Decoder decoder = new BASE64Decoder();
         byte[] b = decoder.decodeBuffer(String.valueOf(buf));
         for (int i = 0; i < b.length; ++i) {
-            if (b[i] < 0) {// 调整异常数据
+            // 调整异常数据
+            if (b[i] < 0) {
                 b[i] += 256;
             }
         }
+
         String cmd = "phantomJs " + phantomJs + " convertJs " + convertJs + " -infile " + buf + " -outfile " + path;//生成命令行
         Process process = Runtime.getRuntime().exec(cmd);
         BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -61,6 +64,7 @@ public class TestCmd {
 
 
     }
+
 
 
 }
