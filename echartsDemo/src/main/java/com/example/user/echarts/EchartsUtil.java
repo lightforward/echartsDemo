@@ -16,7 +16,7 @@ public class EchartsUtil {
 
     private static final String SUCCESS_CODE = "1";
 
-    public static String generateEchartsBase64(String option) throws ClientProtocolException, IOException {
+    public static String generateEchartsBase64(String option, String width, String height) throws ClientProtocolException, IOException {
         String base64 = "";
         if (option == null) {
             return base64;
@@ -26,6 +26,8 @@ public class EchartsUtil {
         // 将option字符串作为参数发送给echartsConvert服务器
         Map<String, String> params = new HashMap<>();
         params.put("opt", option);
+        params.put("width", "800");
+        params.put("height", "800");
         String response = HttpUtil.post(url, params, "utf-8");
 
         // 解析echartsConvert响应

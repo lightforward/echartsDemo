@@ -34,25 +34,17 @@ public class TestCmd {
         File phantomJs = new File("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\phantomjs-2.1.1-windows\\phantomjs-2.1.1-windows\\bin\\phantomjs ");
         File convertJs = new File("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\echartsconvert\\echarts-convert.js ");
 
-        String path = "F:/echartsPng/test.png";
-        File outfile = new File(path); // 文件路径（路径+文件名）
+        // 文件路径（路径+文件名）
+        String path = "F:/echartsPng/TestCmd.png";
+        File outfile = new File(path);
         if (!outfile.exists()) {
             File dir = new File(outfile.getParent());
             dir.mkdirs();
             outfile.createNewFile();
         }
 
-        // 转Base64
-        BASE64Decoder decoder = new BASE64Decoder();
-        byte[] b = decoder.decodeBuffer(String.valueOf(buf));
-        for (int i = 0; i < b.length; ++i) {
-            // 调整异常数据
-            if (b[i] < 0) {
-                b[i] += 256;
-            }
-        }
-
-        String cmd = "phantomJs " + phantomJs + " convertJs " + convertJs + " -infile " + buf + " -outfile " + path;//生成命令行
+        //生成命令行
+        String cmd = "phantomJs " + phantomJs + " convertJs " + convertJs + " -infile " + buf + " -outfile " + path;
         Process process = Runtime.getRuntime().exec(cmd);
         BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line = "";

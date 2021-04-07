@@ -21,10 +21,10 @@ public class TestHttp {
     public static void main(String[] args) throws ClientProtocolException, IOException, TemplateException {
 
         // 未配置环境变量情况下, 启动phantomjs.exe
+
         Runtime run = Runtime.getRuntime();
         Process process = run.exec("E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\phantomjs-2.1.1-windows\\phantomjs-2.1.1-windows\\bin\\phantomjs " +
                 "E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\echartsconvert\\echarts-convert.js -s -p 6666");
-
         // 变量
         String title = "水果";
         String[] categories = new String[] { "苹果", "香蕉", "西瓜" };
@@ -40,9 +40,9 @@ public class TestHttp {
         String option = FreemarkerUtil.generateString("option.ftl", "", datas);
 
         // (调用phantomjs服务生成echarts图片)根据option参数
-        String base64 = EchartsUtil.generateEchartsBase64(option);
+        String base64 = EchartsUtil.generateEchartsBase64(option, "800", "800");
         System.out.println("BASE64:" + base64);
-        generateImage(base64, "F:/echartsPng/test.png");
+        generateImage(base64, "F:/echartsPng/TestHttp.png");
 
         process.destroy();
 
