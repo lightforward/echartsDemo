@@ -2,6 +2,7 @@ package com.example.user.echarts;
 
 import com.alibaba.fastjson.JSON;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.ClientProtocolException;
 import sun.misc.BASE64Decoder;
 
@@ -9,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 使用Http调用
@@ -27,12 +30,12 @@ public class TestHttp {
                 "E:\\demo\\echartsDemo\\echartsDemo\\src\\main\\resources\\echartsconvert\\echarts-convert.js -s -p 6666");
         // 变量
         String title = "水果";
-        String[] categories = new String[] { "苹果", "香蕉", "西瓜" };
+        String[] categories = new String[] { "苹果", "香蕉", "~!#$^&*()_+/|{} [] %"};
         int[] values = new int[] { 3, 2, 1 };
 
         // 模板参数
         HashMap<String, Object> datas = new HashMap<>();
-        datas.put("categories", JSON.toJSONString(categories));
+        datas.put("categories", JSON.toJSONString(categories).replace("%", " "));
         datas.put("values", JSON.toJSONString(values));
         datas.put("title", title);
 
@@ -47,6 +50,28 @@ public class TestHttp {
         process.destroy();
 
     }
+
+    public static String escapeQueryChars(String s) {
+        if (StringUtils.isBlank(s)) {
+            return s;
+        }
+        StringBuilder sb = new StringBuilder();
+        //查询字符串一般不会太长，挨个遍历也花费不了多少时间
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // These characters are part of the query syntax and must be escaped
+            if (c == '\\' || c == '+' || c == '-' || c == '!' || c == '(' || c == ')'
+                    || c == ':' || c == '^'	|| c == '[' || c == ']' || c == '\"'
+                    || c == '{' || c == '}' || c == '~' || c == '*' || c == '?'
+                    || c == '|' || c == '&' || c == ';' || c == '/' || c == '.'
+                    || c == '$' || Character.isWhitespace(c)) {
+                sb.append('\\');
+            }
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
 
     public static void generateImage(String base64, String path) throws IOException {
         BASE64Decoder decoder = new BASE64Decoder();
