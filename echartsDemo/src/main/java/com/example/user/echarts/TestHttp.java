@@ -35,7 +35,7 @@ public class TestHttp {
 
         // 模板参数
         HashMap<String, Object> datas = new HashMap<>();
-        datas.put("categories", JSON.toJSONString(categories).replace("%", " "));
+        datas.put("categories", JSON.toJSONString(categories).replace("%", "\\\\%"));
         datas.put("values", JSON.toJSONString(values));
         datas.put("title", title);
 

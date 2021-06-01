@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserApplication.class)
-public class HelloControllerTest {
+public class HelloControllerTestRecursion {
 
     @Autowired
     private UserMapper userMapper;
