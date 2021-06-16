@@ -105,5 +105,8 @@ public class UserController {
         //将数据存储到session中
         session.setAttribute("loginUser", loginUser);
         session.setMaxInactiveInterval(60 * 20); //单位秒
+
+        User user = User.builder().id(1L).passWord("").build();
+
     }
 }
