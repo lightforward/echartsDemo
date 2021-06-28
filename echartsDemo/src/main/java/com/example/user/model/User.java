@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 @ToString
 @Builder
+@Data
 public class User implements Serializable {
 
     private  Long id;

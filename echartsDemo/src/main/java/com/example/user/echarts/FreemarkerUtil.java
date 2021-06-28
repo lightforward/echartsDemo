@@ -1,18 +1,24 @@
 package com.example.user.echarts;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import org.springframework.core.io.ClassPathResource;
-
+/**
+ * <p>
+ * 生成echarts模板
+ * </p>
+ *
+ * @author wangns
+ * @since 2021年4月7日
+ */
 public class FreemarkerUtil {
 
-    private static final String path = FreemarkerUtil.class.getClassLoader().getResource("templates").getPath();
 
     public static String generateString(String templateFileName, String templateDirectory, Map<String, Object> datas)
             throws IOException, TemplateException {
@@ -22,7 +28,7 @@ public class FreemarkerUtil {
         configuration.setDefaultEncoding("UTF-8");
 
         // 设置模板所在文件夹
-        configuration.setDirectoryForTemplateLoading(new File(path + templateDirectory));
+        configuration.setDirectoryForTemplateLoading(new File(templateDirectory));
 
         // 生成模板对象
         Template template = configuration.getTemplate(templateFileName);
@@ -34,4 +40,5 @@ public class FreemarkerUtil {
             return stringWriter.getBuffer().toString();
         }
     }
+
 }

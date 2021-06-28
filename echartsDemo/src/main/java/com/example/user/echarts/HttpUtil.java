@@ -1,11 +1,5 @@
 package com.example.user.echarts;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -16,6 +10,20 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * <p>
+ * http调用phantomjs工具类
+ * </p>
+ *
+ * @author wangns
+ * @since 2021年4月7日
+ */
 public class HttpUtil {
 
     public static String post(String url, Map<String, String> params, String charset)
