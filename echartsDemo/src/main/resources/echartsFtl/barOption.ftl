@@ -1,5 +1,9 @@
 {
-
+    title: {
+        text: 'demo',
+        subtext: '柱形图',
+        left: 'center'
+    },
     xAxis: {
         type: 'category',
         data: ${categories},

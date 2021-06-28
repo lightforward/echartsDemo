@@ -34,7 +34,6 @@ public class EchartsGenImageUtils {
     public static String pieImage(List<HashMap<String, Object>> list, String path, String width, String heigth) throws Exception {
 
         HashMap<String, Object> datas = new HashMap<>();
-        datas.put("title", "扇形图");
         datas.put("data", JSON.toJSONString(list).replaceAll("%", " "));
 
         // 生成option字符串
@@ -63,7 +62,6 @@ public class EchartsGenImageUtils {
     public static String barImage(List<String> categories, List<Long> values, String path, String width, String heigth) throws Exception {
 
         HashMap<String, Object> datas = new HashMap<>();
-        datas.put("title", "柱状图");
         datas.put("categories", JSON.toJSONString(categories).replaceAll("%", " "));
         datas.put("values", JSON.toJSONString(values));
 
