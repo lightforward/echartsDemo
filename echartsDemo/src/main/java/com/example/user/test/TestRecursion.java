@@ -7,6 +7,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * lambda处理树形结构数据
+ *
+ * 2020年12月3日18:06:02
+ *
+ * @Author: 王能顺
+ *
+ */
 public class TestRecursion {
 
     public static void main(String[] args) {
