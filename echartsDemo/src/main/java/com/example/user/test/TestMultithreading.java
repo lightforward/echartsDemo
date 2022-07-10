@@ -1,72 +1,51 @@
 package com.example.user.test;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 public class TestMultithreading {
 
-    static int tickets = 10000000;
+    private static void doTest(ExecutorService threadPool) {
+        for (int i = 1; i < 5; i++) {
+            final int taskID = i;
+            threadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 1; i < 5; i++) {
+                        try {
+                            Thread.sleep(200);// 为了测试出效果，让每次任务执行都需要一定时间
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("第" + taskID + "次任务的第" + i + "次执行");
+                    }
+                }
+            });
+        }
+        threadPool.shutdown();// 任务执行完毕，关闭线程池
+    }
 
     public static void main(String[] args) {
-        ExecutorService service = Executors.newFixedThreadPool(3);
-//        // 开始时间
-//        long beginTime = System.currentTimeMillis();
+        // 创建可以容纳3个线程的线程池
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
-//        Future submit = service.submit(new MyCallable());
+//        // 线程池的大小会根据执行的任务数动态分配
+//        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+//
+//        // 创建单个线程的线程池，如果当前线程在执行任务时突然中断，则会创建一个新的线程替代它继续执行任务
+//        ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
+//
+//        // 效果类似于Timer定时器
+//        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(3);
 
-        Runnable runnable = () -> {
-            while (tickets > 0) {
-                try {
-                    if (tickets > 0) {
-                        System.out.println(Thread.currentThread().getName() + (tickets--));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        Future submit = service.submit(runnable);
-
-//        // 结束时间
-//        long endTime = System.currentTimeMillis();
-
-        //关闭线程池
-        service.shutdown();
-
+        doTest(fixedThreadPool);
+//        run(cachedThreadPool);
+//        run(singleThreadPool);
+//        run(scheduledThreadPool);
     }
-}
 
-
-class MyCallable implements Callable {
-
-    static int tickets = 10000000;
-
-    static String string = "";
-
-    @Override
-    public Object call() throws Exception {
-        while (tickets > 0) {
-            synchronized (string) {
-                try {
-                    if (tickets > 0) {
-                        System.out.println(Thread.currentThread().getName() + (tickets--));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
 
 }
 
